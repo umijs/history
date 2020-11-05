@@ -92,8 +92,15 @@ module.exports = function(config) {
           },
           // query-string 不支持 IE 11，这里先转下
           {
-            test: /build\/.*\.js$/,
+            test: /\/.*\.js$/,
             loader: 'babel-loader',
+            exclude: filepath => {
+              if (filepath.includes('query-string')) {
+                return false;
+              }
+              console.log('filepath', filepath);
+              return /node_modules/.test(filepath);
+            },
             options: {
               presets: ['@babel/preset-env']
             }
