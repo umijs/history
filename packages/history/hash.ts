@@ -1,4 +1,4 @@
-import { createHashHistory } from 'history';
+import { createHashHistory } from '@umijs/history';
 
 /**
  * Create a default instance for the current document.
