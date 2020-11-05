@@ -34,12 +34,6 @@ function publishBuild(packageName, tag) {
 
 async function run() {
   try {
-    // 0. Ensure we are in CI. We don't do this manually
-    invariant(
-      process.env.CI,
-      `You should always run the publish script from the CI environment!`
-    );
-
     // 1. Get the current tag, which has the release version number
     let version = getTaggedVersion();
     invariant(
