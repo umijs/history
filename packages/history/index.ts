@@ -1,4 +1,4 @@
-import querystring, { ParsedQuery } from "query-string";
+import { parse, ParsedQuery } from "query-string";
 
 /**
  * Actions represent the type of change to a location value.
@@ -420,7 +420,7 @@ export function createBrowserHistory(
   function getIndexAndLocation(): [number, Location] {
     let { pathname, search, hash } = window.location;
     let state = globalHistory.state || {};
-    let query = querystring.parse(search) || {};
+    let query = parse(search) || {};
     return [
       state.idx,
       readOnly<Location>({
@@ -648,7 +648,7 @@ export function createHashHistory(
       readOnly<Location>({
         pathname,
         search,
-        query: querystring.parse(search) || {},
+        query: parse(search) || {},
         hash,
         state: state.usr || null,
         key: state.key || 'default'
@@ -1124,7 +1124,7 @@ export function parsePath(path: string) {
       partialPath.search = path.substr(searchIndex);
       path = path.substr(0, searchIndex);
     }
-    partialPath.query = querystring.parse(partialPath.search || '') || {};
+    partialPath.query = parse(partialPath.search || '') || {};
 
     if (path) {
       partialPath.pathname = path;
