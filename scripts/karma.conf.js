@@ -84,12 +84,15 @@ module.exports = function(config) {
         loaders: [
           {
             test: /__tests__\/.*\.js$/,
-            exclude: filepath => {
-              if (filepath.includes('query-string')) {
-                return false;
-              }
-              return /node_modules/.test(filepath);
-            },
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          // query-string 不支持 IE 11，这里先转下
+          {
+            test: /build\/.*\.js$/,
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env']
