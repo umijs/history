@@ -32,15 +32,15 @@ module.exports = function(config) {
       os_version: '10',
       browser: 'Edge',
       browser_version: '17.0'
-    },
-    BS_IE11: {
-      name: 'IE 11',
-      base: 'BrowserStack',
-      os: 'Windows',
-      os_version: '10',
-      browser: 'IE',
-      browser_version: '11.0'
     }
+    // BS_IE11: {
+    //   name: 'IE 11',
+    //   base: 'BrowserStack',
+    //   os: 'Windows',
+    //   os_version: '10',
+    //   browser: 'IE',
+    //   browser_version: '11.0'
+    // }
     // Safari throws an error if you use replaceState more
     // than 100 times in 30 seconds :/
     // See https://travis-ci.com/ReactTraining/history/jobs/254197476
@@ -86,6 +86,20 @@ module.exports = function(config) {
             test: /__tests__\/.*\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          // query-string 不支持 IE 11，这里先转下
+          {
+            test: /\/.*\.js$/,
+            loader: 'babel-loader',
+            exclude: filepath => {
+              if (filepath.includes('query-string')) {
+                return false;
+              }
+              return /node_modules/.test(filepath);
+            },
             options: {
               presets: ['@babel/preset-env']
             }

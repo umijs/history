@@ -16,6 +16,9 @@ export default (history, done) => {
       expect(location).toMatchObject({
         pathname: '/home',
         search: '?the=query',
+        query: {
+          the: 'query'
+        },
         hash: '#the-hash'
       });
 
@@ -26,6 +29,9 @@ export default (history, done) => {
       expect(location).toMatchObject({
         pathname: '/home',
         search: '?another=query',
+        query: {
+          another: 'query'
+        },
         hash: '#another-hash'
       });
     }

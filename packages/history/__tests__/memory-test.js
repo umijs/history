@@ -164,6 +164,7 @@ describe('a memory history with some initial entries', () => {
     expect(history.location).toMatchObject({
       pathname: '/three',
       search: '',
+      query: {},
       hash: '',
       state: null,
       key: expect.any(String)
