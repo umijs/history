@@ -18,7 +18,7 @@ const modules = [
       format: 'esm',
       sourcemap: !PRETTY
     },
-    external: ['@babel/runtime/helpers/esm/extends'],
+    external: ['@babel/runtime/helpers/esm/extends', 'query-string'],
     plugins: [
       typescript({
         tsconfigDefaults: {
