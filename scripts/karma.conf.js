@@ -84,7 +84,12 @@ module.exports = function(config) {
         loaders: [
           {
             test: /__tests__\/.*\.js$/,
-            exclude: /node_modules/,
+            exclude: filepath => {
+              if (filepath.includes('query-string')) {
+                return false;
+              }
+              return /node_modules/.test(filepath);
+            },
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env']
