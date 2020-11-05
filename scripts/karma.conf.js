@@ -98,7 +98,6 @@ module.exports = function(config) {
               if (filepath.includes('query-string')) {
                 return false;
               }
-              console.log('filepath', filepath);
               return /node_modules/.test(filepath);
             },
             options: {
