@@ -12,7 +12,6 @@ const PRETTY = !!process.env.PRETTY;
 const SOURCE_DIR = 'packages/history';
 const OUTPUT_DIR = 'build/history';
 
-const babelExclude = /node_modules/;
 const queryStringPlugins = [
   resolve(),
   commonjs({
@@ -39,8 +38,7 @@ const modules = [
         }
       }),
       babel({
-        exclude: babelExclude,
-        extensions: ['.ts'],
+        extensions: ['.ts', '.js'],
         presets: [['@babel/preset-env', { loose: true }]],
         plugins: [
           'babel-plugin-dev-expression',
@@ -77,8 +75,7 @@ const modules = [
           }
         }),
         babel({
-          exclude: babelExclude,
-          extensions: ['.ts'],
+          extensions: ['.ts', '.js'],
           presets: [['@babel/preset-env', { loose: true }]],
           plugins: ['babel-plugin-dev-expression']
         }),
@@ -106,8 +103,7 @@ const webModules = [
         }
       }),
       babel({
-        exclude: babelExclude,
-        extensions: ['.ts'],
+        extensions: ['.ts', '.js'],
         presets: ['@babel/preset-modules'],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -132,8 +128,7 @@ const webModules = [
         }
       }),
       babel({
-        exclude: babelExclude,
-        extensions: ['.ts'],
+        extensions: ['.ts', '.js'],
         presets: ['@babel/preset-modules'],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -157,8 +152,7 @@ const globals = [
       ...queryStringPlugins,
       typescript(),
       babel({
-        exclude: babelExclude,
-        extensions: ['.ts'],
+        extensions: ['.ts', '.js'],
         presets: [['@babel/preset-env', { loose: true }]],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -178,8 +172,7 @@ const globals = [
       ...queryStringPlugins,
       typescript(),
       babel({
-        exclude: babelExclude,
-        extensions: ['.ts'],
+        extensions: ['.ts', '.js'],
         presets: [['@babel/preset-env', { loose: true }]],
         plugins: ['babel-plugin-dev-expression']
       }),
