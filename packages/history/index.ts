@@ -1,3 +1,5 @@
+import querystring, { ParsedQuery } from "query-string";
+
 /**
  * Actions represent the type of change to a location value.
  *
@@ -42,6 +44,11 @@ export type Pathname = string;
 export type Search = string;
 
 /**
+ * The URL search object
+ */
+export type Query = ParsedQuery;
+
+/**
  * A URL fragment identifier, beginning with a #.
  *
  * @see https://github.com/ReactTraining/history/tree/master/docs/api-reference.md#location.hash
@@ -81,6 +88,11 @@ export interface Path {
    * @see https://github.com/ReactTraining/history/tree/master/docs/api-reference.md#location.search
    */
   search: Search;
+
+  /**
+   * The URL search object
+   */
+  query: Query;
 
   /**
    * A URL fragment identifier, beginning with a #.
@@ -132,6 +144,11 @@ export interface PartialPath {
    * @see https://github.com/ReactTraining/history/tree/master/docs/api-reference.md#location.search
    */
   search?: Search;
+
+  /**
+   * The URL search object
+   */
+  query?: Query;
 
   /**
    * The URL fragment identifier, beginning with a #.
@@ -403,10 +420,12 @@ export function createBrowserHistory(
   function getIndexAndLocation(): [number, Location] {
     let { pathname, search, hash } = window.location;
     let state = globalHistory.state || {};
+    let query = querystring.parse(search) || {};
     return [
       state.idx,
       readOnly<Location>({
         pathname,
+        query,
         search,
         hash,
         state: state.usr || null,
@@ -629,6 +648,7 @@ export function createHashHistory(
       readOnly<Location>({
         pathname,
         search,
+        query: querystring.parse(search) || {},
         hash,
         state: state.usr || null,
         key: state.key || 'default'
@@ -887,6 +907,7 @@ export function createMemoryHistory(
     let location = readOnly<Location>({
       pathname: '/',
       search: '',
+      query: {},
       hash: '',
       state: null,
       key: createKey(),
@@ -1103,6 +1124,7 @@ export function parsePath(path: string) {
       partialPath.search = path.substr(searchIndex);
       path = path.substr(0, searchIndex);
     }
+    partialPath.query = querystring.parse(partialPath.search || '') || {};
 
     if (path) {
       partialPath.pathname = path;
