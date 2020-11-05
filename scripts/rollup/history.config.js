@@ -1,6 +1,4 @@
-import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import copy from 'rollup-plugin-copy';
 import prettier from 'rollup-plugin-prettier';
@@ -12,13 +10,6 @@ const PRETTY = !!process.env.PRETTY;
 const SOURCE_DIR = 'packages/history';
 const OUTPUT_DIR = 'build/history';
 
-const queryStringPlugins = [
-  resolve(),
-  commonjs({
-    include: /node_modules/
-  })
-];
-
 const modules = [
   {
     input: `${SOURCE_DIR}/index.ts`,
@@ -29,7 +20,6 @@ const modules = [
     },
     external: ['@babel/runtime/helpers/esm/extends'],
     plugins: [
-      ...queryStringPlugins,
       typescript({
         tsconfigDefaults: {
           compilerOptions: {
@@ -38,7 +28,8 @@ const modules = [
         }
       }),
       babel({
-        extensions: ['.ts', '.js'],
+        exclude: /node_modules/,
+        extensions: ['.ts'],
         presets: [['@babel/preset-env', { loose: true }]],
         plugins: [
           'babel-plugin-dev-expression',
@@ -66,7 +57,6 @@ const modules = [
         sourcemap: !PRETTY
       },
       plugins: [
-        ...queryStringPlugins,
         typescript({
           tsconfigDefaults: {
             compilerOptions: {
@@ -75,7 +65,8 @@ const modules = [
           }
         }),
         babel({
-          extensions: ['.ts', '.js'],
+          exclude: /node_modules/,
+          extensions: ['.ts'],
           presets: [['@babel/preset-env', { loose: true }]],
           plugins: ['babel-plugin-dev-expression']
         }),
@@ -94,7 +85,6 @@ const webModules = [
       sourcemap: !PRETTY
     },
     plugins: [
-      ...queryStringPlugins,
       typescript({
         tsconfigOverride: {
           compilerOptions: {
@@ -103,7 +93,8 @@ const webModules = [
         }
       }),
       babel({
-        extensions: ['.ts', '.js'],
+        exclude: /node_modules/,
+        extensions: ['.ts'],
         presets: ['@babel/preset-modules'],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -119,7 +110,6 @@ const webModules = [
       sourcemap: !PRETTY
     },
     plugins: [
-      ...queryStringPlugins,
       typescript({
         tsconfigOverride: {
           compilerOptions: {
@@ -128,7 +118,8 @@ const webModules = [
         }
       }),
       babel({
-        extensions: ['.ts', '.js'],
+        exclude: /node_modules/,
+        extensions: ['.ts'],
         presets: ['@babel/preset-modules'],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -149,10 +140,10 @@ const globals = [
       name: 'HistoryLibrary'
     },
     plugins: [
-      ...queryStringPlugins,
       typescript(),
       babel({
-        extensions: ['.ts', '.js'],
+        exclude: /node_modules/,
+        extensions: ['.ts'],
         presets: [['@babel/preset-env', { loose: true }]],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -169,10 +160,10 @@ const globals = [
       name: 'HistoryLibrary'
     },
     plugins: [
-      ...queryStringPlugins,
       typescript(),
       babel({
-        extensions: ['.ts', '.js'],
+        exclude: /node_modules/,
+        extensions: ['.ts'],
         presets: [['@babel/preset-env', { loose: true }]],
         plugins: ['babel-plugin-dev-expression']
       }),
@@ -190,9 +181,7 @@ const node = [
       file: `${OUTPUT_DIR}/main.js`,
       format: 'cjs'
     },
-    plugins: [...queryStringPlugins, compiler()].concat(
-      PRETTY ? prettier({ parser: 'babel' }) : []
-    )
+    plugins: [compiler()].concat(PRETTY ? prettier({ parser: 'babel' }) : [])
   }
 ];
 

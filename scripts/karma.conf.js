@@ -32,15 +32,15 @@ module.exports = function(config) {
       os_version: '10',
       browser: 'Edge',
       browser_version: '17.0'
-    },
-    BS_IE11: {
-      name: 'IE 11',
-      base: 'BrowserStack',
-      os: 'Windows',
-      os_version: '10',
-      browser: 'IE',
-      browser_version: '11.0'
     }
+    // BS_IE11: {
+    //   name: 'IE 11',
+    //   base: 'BrowserStack',
+    //   os: 'Windows',
+    //   os_version: '10',
+    //   browser: 'IE',
+    //   browser_version: '11.0'
+    // }
     // Safari throws an error if you use replaceState more
     // than 100 times in 30 seconds :/
     // See https://travis-ci.com/ReactTraining/history/jobs/254197476
